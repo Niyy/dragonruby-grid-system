@@ -1,17 +1,23 @@
 class Grid_Object
-    attr_accessor :col, :row
-    @@w_tile = 32
-    @@h_tile = 32
+    attr_accessor :col, :row, :w_tile, :h_tile
 
-    def initialize(w, h)
-        @@w_tile = w != nil ? w : 32
-        @@h_tile = h != nil ? h : 32
+    def initialize(init_args)
+        @w_tile = init_args[:w] != nil ? init_args[:w] : 32
+        @h_tile = init_args[:h] != nil ? init_args[:h] : 32
+    end
+
+
+    def set_to_grid(coord)
+        position = to_grid(coord)
+
+        @col = position[:col]
+        @row = position[:row]
     end
 
 
     def to_grid(coord)
-        col_tile = coord[:x] / @@w 
-        row_tile = coord[:y] / @@h 
+        col_tile = coord[:x] / @w 
+        row_tile = coord[:y] / @h 
 
         return {
             col: col_tile.floor,
@@ -21,8 +27,8 @@ class Grid_Object
 
 
     def to_coord(tile)
-        x_tile = (tile[:col] * @@w_tile)
-        y_tile = (tile[:row] * @@h_tile)
+        x_tile = (tile[:col] * @w_tile)
+        y_tile = (tile[:row] * @h_tile)
 
         return {
             x: x_tile,
@@ -31,30 +37,10 @@ class Grid_Object
     end
 
 
-    def self.get_w_tile()
-        return @@w
-    end
-
-
-    def self.set_w_tile(w)
-        @@w_tile = w
-    end
-
-
-    def self.get_h_tile()
-        return @@h_tile
-    end
-
-    
-    def self.set_h_tile(h)
-        @@h_tile = h
-    end
-
-
     # 1. Create a serialize method that returns a hash with all of
     #    the values you care about.
     def serialize()
-        { w_tile: @@w_tile, h_tile: @@h_tile, col: @col, row: @row }
+        { w_tile: @w_tile, h_tile: @h_tile, col: @col, row: @row }
     end
 
 
