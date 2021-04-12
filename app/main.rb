@@ -3,18 +3,19 @@ require 'app/require.rb'
 
 def init(args)
   args.state.tiles << (0..3).map do |y|
-    tile = Sprite_Grid_Object.new(
-      {
+    (0..4).map do |x|
+      tile = Sprite_Grid_Object.new({
         args: args,
-        col: 0,
+        col: x,
         row: y,
-        w: 32,
-        h: 32
-        path: "sprites/snowWIP.png",
-      }
-    )
-    tile.set_to_coord(tile.get_tile_position())
-    tile
+        path: 'sprites/snowWIP.png',
+        source_y: y * 16 + 288,
+        source_x: x * 16 + 17
+      })
+
+      tile.set_to_coord(tile.get_tile_position())
+      tile
+    end
   end
 
   puts "init_over"

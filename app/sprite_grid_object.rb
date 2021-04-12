@@ -18,10 +18,10 @@ class Sprite_Grid_Object < Grid_Object
         @h = @h_tile + @h_offset
         @x_offset = init_args[:x_offset] != nil ? init_args[:x_offset] : 0
         @y_offset = init_args[:y_offset] != nil ? init_args[:y_offset] : 0
-        @source_x = init_args[:x_source] != nil ? init_args[:x_source] : 0
-        @source_y = init_args[:y_source] != nil ? init_args[:y_source] : 0
-        @source_w = init_args[:w_source] != nil ? init_args[:w_source] : 0
-        @source_h = init_args[:h_source] != nil ? init_args[:h_source] : 0
+        @source_x = init_args[:source_x] != nil ? init_args[:source_x] : 0
+        @source_y = init_args[:source_y] != nil ? init_args[:source_y] : 0
+        @source_w = init_args[:source_w] != nil ? init_args[:source_w] : @w 
+        @source_h = init_args[:source_h] != nil ? init_args[:source_h] : @h 
     end
 
 
@@ -41,6 +41,8 @@ class Sprite_Grid_Object < Grid_Object
     def get_coord_position()
         return {x: @x, y: @y}
     end
+
+
     # 1. Create a serialize method that returns a hash with all of
     #    the values you care about.
     def serialize()
