@@ -4,6 +4,7 @@ class Grid_Object
     def initialize(init_args)
         @w_tile = init_args[:w] != nil ? init_args[:w] : 32
         @h_tile = init_args[:h] != nil ? init_args[:h] : 32
+        @level = init_args[:level] != nil ? init_args[:h] : 0 
     end
 
 

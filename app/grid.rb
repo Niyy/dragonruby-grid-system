@@ -6,10 +6,7 @@ class Grid
     end
 
 
-    def place_tile(tile)
-        @tiles[tile.get_tile_position()] = {
-            tile: tile, 
-            level: 0
-        }
+    def place_tile(tile, level)
+        @tiles[tile.get_tile_position()] = []
     end
 end
