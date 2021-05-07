@@ -12,34 +12,26 @@ class Sprite_Grid_Object < Grid_Object
         @col = init_args[:col]
         @row = init_args[:row]
         @path = init_args[:path]
+        @x = init_args[:x] != nil ? init_args[:x] : 0
+        @y = init_args[:y] != nil ? init_args[:y] : 0
         @w_offset = init_args[:w_offset] != nil ? init_args[:w_offset] : 0
         @h_offset = init_args[:h_offset] != nil ? init_args[:h_offset] : 0 
         @w = @w_tile + @w_offset
         @h = @h_tile + @h_offset
         @x_offset = init_args[:x_offset] != nil ? init_args[:x_offset] : 0
         @y_offset = init_args[:y_offset] != nil ? init_args[:y_offset] : 0
-        @source_x = init_args[:source_x] != nil ? init_args[:source_x] : 0
-        @source_y = init_args[:source_y] != nil ? init_args[:source_y] : 0
-        @source_w = init_args[:source_w] != nil ? init_args[:source_w] : @w 
-        @source_h = init_args[:source_h] != nil ? init_args[:source_h] : @h 
+        @source_x = init_args[:source_x] != nil ? init_args[:source_x] : nil 
+        @source_y = init_args[:source_y] != nil ? init_args[:source_y] : nil 
+        @source_w = init_args[:source_w] != nil ? init_args[:source_w] : nil 
+        @source_h = init_args[:source_h] != nil ? init_args[:source_h] : nil 
     end
 
-
+    # override
     def set_to_coord(tile)
-        position = to_coord(tile)
+        position = tile_to_coord(tile)
 
-        @x = position[:x]
-        @y = position[:y] 
-    end
-
-
-    def get_tile_position()
-        return {col: @col, row: @row}
-    end
-
-
-    def get_coord_position()
-        return {x: @x, y: @y}
+        @x = position[:x] + @x_offset
+        @y = position[:y] + @y_offset
     end
 
 
@@ -47,7 +39,9 @@ class Sprite_Grid_Object < Grid_Object
     #    the values you care about.
     def serialize()
         { x: @x, y: @y, w: @w, h: @h, path: @path, x_offset: @x_offset,
-        y_offset: @y_offset, w_offset: @w_offset, h_offset: @h_offset }
+        y_offset: @y_offset, w_offset: @w_offset, h_offset: @h_offset,
+        source_x: @source_x, source_y: @source_y, source_w: @source_w,
+        source_h: @source_h, col: @col, row: @row  }
     end
 
 

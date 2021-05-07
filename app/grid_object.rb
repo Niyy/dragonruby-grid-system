@@ -1,24 +1,46 @@
 class Grid_Object
-    attr_accessor :col, :row, :w_tile, :h_tile
+    attr_accessor :col, :row, :w_tile, :h_tile, :z
 
     def initialize(init_args)
         @w_tile = init_args[:w] != nil ? init_args[:w] : 32
         @h_tile = init_args[:h] != nil ? init_args[:h] : 32
-        @level = init_args[:level] != nil ? init_args[:h] : 0 
+        @z = init_args[:z] != nil ? init_args[:z] : 0 
+    end
+
+
+    def set_everything_from_tile(tile)
+        set_to_coord(tile)
+
+        @col = tile[:col]
+        @row = tile[:row]
+    end
+
+
+    def set_everything_from_coord(coord)
+        set_to_grid(coord)
+        set_to_coord(get_tile_position) 
+    end
+
+
+    def set_to_coord(tile)
+        position = tile_to_coord(tile)
+
+        @x = position[:x]
+        @y = position[:y] 
     end
 
 
     def set_to_grid(coord)
-        position = to_grid(coord)
+        position = coord_to_grid(coord)
 
         @col = position[:col]
         @row = position[:row]
     end
 
 
-    def to_grid(coord)
-        col_tile = coord[:x] / @w 
-        row_tile = coord[:y] / @h 
+    def coord_to_grid(coord)
+        col_tile = coord[:x] / @w_tile 
+        row_tile = coord[:y] / @h_tile 
 
         return {
             col: col_tile.floor,
@@ -27,7 +49,7 @@ class Grid_Object
     end
 
 
-    def to_coord(tile)
+    def tile_to_coord(tile)
         x_tile = (tile[:col] * @w_tile)
         y_tile = (tile[:row] * @h_tile)
 
@@ -38,21 +60,45 @@ class Grid_Object
     end
 
 
-    # 1. Create a serialize method that returns a hash with all of
-    #    the values you care about.
-    def serialize()
-        { w_tile: @w_tile, h_tile: @h_tile, col: @col, row: @row }
+    def set_coord_to_grid(coord)
+        tile = coord_to_grid(coord)
+        return tile_to_coord(tile)
     end
 
 
-    # 2. Override the inspect method and return ~serialize.to_s~.
-    def inspect()
-        serialize.to_s()
+    def self.with_dimensions_to_tile(dim, coord)
+        col_tile = coord[:x] / dim[:w] 
+        row_tile = coord[:y] / dim[:h] 
+
+        return {
+            col: col_tile.floor,
+            row: row_tile.floor
+        }
     end
 
 
-    # 3. Override to_s and return ~serialize.to_s~.
-    def to_s()
-        serialize.to_s()
+    def get_tile_position()
+        return {col: @col, row: @row}
+    end
+
+
+    def get_coord_base_on_tile()
+        return {x: @col * 32, y: @row * 32}
+    end
+
+
+    def get_coord_position()
+        return {x: @x, y: @y}
+    end
+
+
+    def self.with_dimensions_to_coord(dim, tile)
+        x_tile = (tile[:col] * dim[:w])
+        y_tile = (tile[:row] * dim[:h])
+
+        return {
+            x: x_tile,
+            y: y_tile,
+        }
     end
 end
